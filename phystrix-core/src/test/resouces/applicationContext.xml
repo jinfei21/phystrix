@@ -19,7 +19,7 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations">
 			<list>
-				<value>classpath:config.properties</value>
+				<value>classpath:phystrix.properties</value>
 			</list>
 		</property>
 	</bean>

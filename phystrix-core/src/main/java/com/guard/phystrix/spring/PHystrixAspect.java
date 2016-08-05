@@ -58,7 +58,7 @@ public class PHystrixAspect implements Ordered, ResourceLoaderAware, Application
     @Pointcut("@annotation(com.guard.phystrix.Phystrix)")
     public void pointcutPHystrix(){}
     
-    @Around("pointcutTXAction()")
+    @Around("pointcutPHystrix()")
     public Object doPHystrix(ProceedingJoinPoint pjp) throws Throwable {
     	
         //获取方法上的注解内容
@@ -74,18 +74,9 @@ public class PHystrixAspect implements Ordered, ResourceLoaderAware, Application
             commandContext = new AnnotationContext(phystrix.commandGroup(),phystrix.commandKey(),phystrix.fallBack());
             commandCache.put(commandMethod, commandContext);
         }
-    	
-        try{
-        	return new PHystrixCommand(commandContext.getCommandGroup(),commandContext.getCommandKey(),pjp).execute() ;
-        }catch(Throwable t){
-        	if(StringUtils.isNotEmpty(commandContext.getFallBack())){
-        		 Method method= ReflectionUtils.findMethod(pjp.getTarget().getClass(),commandContext.getFallBack(),ReflectUtil.toTargetClazz(pjp.getArgs()));
-        		 
-        		 ReflectionUtils.makeAccessible(method);
-        		 return ReflectionUtils.invokeMethod(method, pjp.getTarget(),pjp.getArgs());
-        	}
-        	throw t;
-        }
+    	      
+        return new PHystrixCommand(commandContext,pjp).execute() ;
+      
     }
 
     @Override

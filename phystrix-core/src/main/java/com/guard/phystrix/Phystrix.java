@@ -16,4 +16,6 @@ public @interface Phystrix {
 	String commandKey() ;
 	String commandGroup() ;
 	String fallBack() default "";
+	int maxRequest  = 500;
+	int timeout = 500;
 }
