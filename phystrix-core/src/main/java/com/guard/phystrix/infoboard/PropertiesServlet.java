@@ -6,10 +6,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.eclipse.jetty.server.Response;
-import org.eclipse.jetty.util.ajax.JSON;
 
+import com.alibaba.fastjson.JSON;
 import com.netflix.config.ConfigurationManager;
 
 public class PropertiesServlet extends HttpServlet {

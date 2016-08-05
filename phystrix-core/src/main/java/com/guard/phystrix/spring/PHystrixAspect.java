@@ -2,8 +2,10 @@ package com.guard.phystrix.spring;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -18,12 +20,15 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.guard.phystrix.Phystrix;
 import com.guard.phystrix.core.AnnotationContext;
 import com.guard.phystrix.core.PHystrixCommand;
+import com.guard.phystrix.infoboard.JettyServer;
 import com.guard.phystrix.util.ReflectUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -34,17 +39,20 @@ public class PHystrixAspect implements Ordered, ResourceLoaderAware, Application
 
 	private ApplicationContext applicationContext;
 	
+	private JettyServer jettyServer;
+	
+	
 	private Cache<Method, AnnotationContext> commandCache = CacheBuilder.newBuilder().expireAfterAccess(300, TimeUnit.SECONDS).maximumSize(1000).build();
 	
     @PostConstruct
     public void init(){
-    	this.transactionServer = TransactionServer.instance();
-    	this.transactionServer.start();
+    	this.jettyServer = JettyServer.instance();
+    	this.jettyServer.start();
     }
     
     @PreDestroy
     public void destroy(){
-        this.transactionServer.shutdown();
+        this.jettyServer.shutdown();
     }
 	
     @Pointcut("@annotation(com.guard.phystrix.Phystrix)")
@@ -74,7 +82,7 @@ public class PHystrixAspect implements Ordered, ResourceLoaderAware, Application
         		 Method method= ReflectionUtils.findMethod(pjp.getTarget().getClass(),commandContext.getFallBack(),ReflectUtil.toTargetClazz(pjp.getArgs()));
         		 
         		 ReflectionUtils.makeAccessible(method);
-        		 ReflectionUtils.invokeMethod(method, pjp.getTarget(),pjp.getArgs());
+        		 return ReflectionUtils.invokeMethod(method, pjp.getTarget(),pjp.getArgs());
         	}
         	throw t;
         }

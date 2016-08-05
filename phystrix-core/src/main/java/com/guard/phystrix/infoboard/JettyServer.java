@@ -4,11 +4,12 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
-import io.anyway.galaxy.spring.DataSourceAdaptor;
+import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TransactionServer {
+public class JettyServer {
 
 	private static final int port = 3000;
 
@@ -17,14 +18,14 @@ public class TransactionServer {
 	private volatile boolean running = false;
 	
 	
-	private static TransactionServer instance;
+	private static JettyServer instance;
 	
 	
-	public static TransactionServer instance(){
+	public static JettyServer instance(){
 		if(instance == null){
-			synchronized (TransactionServer.class) {
+			synchronized (JettyServer.class) {
 				if(instance == null){
-					instance = new TransactionServer();
+					instance = new JettyServer();
 				}
 			}
 			
@@ -34,7 +35,7 @@ public class TransactionServer {
 	
 	
 
-	private TransactionServer() {
+	private JettyServer() {
 		this.server = new Server(port);
 
 		try {
@@ -43,7 +44,7 @@ public class TransactionServer {
 			handler.setSessionHandler(new SessionHandler());
 			handler.addServlet(PropertiesServlet.class, "/api/props");
             handler.addServlet(StaticContentServlet.class, "/*");
-
+            handler.addServlet(HystrixMetricsStreamServlet.class, "/hystrix.stream");
             server.setHandler(handler);
 		} catch (Exception e) {
 			log.error("Exception in building AdminResourcesContainer ", e);

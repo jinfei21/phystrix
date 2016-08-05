@@ -31,6 +31,7 @@
 		<spring.version>3.2.13.RELEASE</spring.version>
 		<aspectj.version>1.6.11</aspectj.version>
 		<jackson.version>2.4.4</jackson.version>
+		<fastjson.version>1.2.14</fastjson.version>
 	</properties>
 
 	<dependencyManagement>
@@ -46,7 +47,11 @@
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
@@ -76,7 +81,11 @@
 				<artifactId>hystrix-core</artifactId>
 				<version>${hystrix.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.netflix.hystrix</groupId>
+				<artifactId>hystrix-metrics-event-stream</artifactId>
+				<version>${hystrix.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
