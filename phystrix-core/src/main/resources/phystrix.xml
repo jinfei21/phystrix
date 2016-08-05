@@ -7,34 +7,19 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd ">
 
-    <context:component-scan base-package="io.anyway.galaxy"/>
+    <context:component-scan base-package="com.guard.phystrix"/>
 
     <bean id="galaxy.propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2" />
         <property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="locations">
             <list>
-                <value>classpath:galaxy-core.properties</value>
+                <value>classpath:phystrix.properties</value>
             </list>
         </property>
     </bean>
 
-    <bean id="txMsgTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="${txMsgTaskExecutor.corePoolSize}" />
-        <property name="maxPoolSize" value="${txMsgTaskExecutor.maxPoolSize}" />
-        <property name="queueCapacity" value="${txMsgTaskExecutor.queueCapacity}" />
-        <property name="rejectedExecutionHandler">
-            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
-        </property>
-    </bean>
-
     <!-- 以下的配置需要在各模块中配置一遍 -->
-    <!-- 扫描模块内容的Action和Service -->
     <aop:aspectj-autoproxy/>
-    <bean id="springContextUtil" class="io.anyway.galaxy.spring.SpringContextUtil" scope="singleton" >
-        <!-- 指定模块的唯一标识 -->
-        <property name="moduleId" value="webapplication"></property>
-    </bean>
-
 
 </beans>
