@@ -25,7 +25,7 @@ public class PHystrixCommand extends HystrixCommand<Object> {
 		this(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandContext.getCommandGroup()))
 				.andCommandKey(HystrixCommandKey.Factory.asKey(commandContext.getCommandKey()))
 				.andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-						.withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)
+						.withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.valueOf(commandContext.getIsolationStgy()))
 						.withExecutionIsolationSemaphoreMaxConcurrentRequests(commandContext.getMaxRequest())
 						.withExecutionTimeoutInMilliseconds(commandContext.getTimeout())));
 		this.pjp = pjp;
@@ -47,7 +47,6 @@ public class PHystrixCommand extends HystrixCommand<Object> {
 		if (StringUtils.isNotEmpty(commandContext.getFallBack())) {
 			Method method = ReflectionUtils.findMethod(pjp.getTarget().getClass(), commandContext.getFallBack(),
 					ReflectUtil.toTargetClazz(pjp.getArgs()));
-
 			ReflectionUtils.makeAccessible(method);
 			return ReflectionUtils.invokeMethod(method, pjp.getTarget(), pjp.getArgs());
 		}

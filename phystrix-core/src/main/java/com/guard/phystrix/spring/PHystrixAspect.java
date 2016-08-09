@@ -63,7 +63,6 @@ public class PHystrixAspect implements Ordered, ResourceLoaderAware, Application
     	
         //获取方法上的注解内容
         final Method commandMethod = ((MethodSignature) pjp.getSignature()).getMethod();
-        
         AnnotationContext commandContext = commandCache.getIfPresent(commandMethod);
         
         if(commandContext == null){
@@ -71,11 +70,11 @@ public class PHystrixAspect implements Ordered, ResourceLoaderAware, Application
             Method targetMethod= target.getDeclaredMethod(commandMethod.getName(),commandMethod.getParameterTypes());
             Phystrix phystrix = targetMethod.getAnnotation(Phystrix.class);
             
-            commandContext = new AnnotationContext(phystrix.commandGroup(),phystrix.commandKey(),phystrix.fallBack());
+            commandContext = new AnnotationContext(phystrix.commandGroup(),phystrix.commandKey(),phystrix.fallBack(),phystrix.isolationStgy());
             commandCache.put(commandMethod, commandContext);
         }
     	      
-        return new PHystrixCommand(commandContext,pjp).execute() ;
+        return new PHystrixCommand(commandContext,pjp).execute();
       
     }
 
