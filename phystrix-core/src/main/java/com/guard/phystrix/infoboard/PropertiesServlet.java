@@ -22,7 +22,7 @@ public class PropertiesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<String, String> allPropsAsString = new TreeMap<String, String>();
+        Map<String, String> allPropsAsString = new TreeMap<String, String>(System.getenv());
         AbstractConfiguration config = ConfigurationManager.getConfigInstance();
         Iterator<String> keys = config.getKeys();
 
