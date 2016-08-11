@@ -16,5 +16,5 @@ public @interface Phystrix {
 	String commandKey() ;
 	String commandGroup() ;
 	String fallBack() default "";
-
+	String isolationStgy() default "SEMAPHORE";
 }

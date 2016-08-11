@@ -19,8 +19,10 @@ import com.netflix.config.ConfigurationManager;
 
 public class PropertiesServlet extends HttpServlet {
 
+    /**  */
+	private static final long serialVersionUID = -7917391657993191684L;
 
-    @Override
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> allPropsAsString = new TreeMap<String, String>(System.getenv());
         AbstractConfiguration config = ConfigurationManager.getConfigInstance();
