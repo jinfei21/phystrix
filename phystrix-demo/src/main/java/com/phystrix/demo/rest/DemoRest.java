@@ -16,6 +16,6 @@ public class DemoRest {
     @RequestMapping(value="request",method = RequestMethod.GET)
     @ResponseBody
     public String quest()throws Exception {
-    	return remoteService.requestRemote("a", "b");
+    	return remoteService.requestRemote("aaaa", "b");
     }
 }
