@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.phystrix.demo.dao.daointerface.ProfileDAO">
+
+	<resultMap id="profileMap" type="profiledo">
+		<id property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="age" column="age" />
+		<result property="email" column="email" />
+		<result property="city" column="city" />
+		<result property="mobile" column="mobile" />
+	</resultMap>
+
+	<sql id="columns">
+		id,user_id,age,email,city,mobile,create_time,modify_time
+	</sql>
+
+
+	<select id="getProfileById" parameterType="long" resultMap="profileMap">
+		select
+		<include refid="columns" />
+		from user_profile
+		where id = #{id}
+	</select>
+	
+	<select id="getProfileByUserId" parameterType="String" resultMap="profileMap">
+		select
+		<include refid="columns" />
+		from user_profile
+		where user_id = #{userId}
+	</select>
+
+	<insert id="insert" parameterType="profiledo" useGeneratedKeys="true" keyProperty="id">
+		insert into user_profile
+		(user_id,age,email,city,mobile,create_time,modify_time)
+		values
+		( #{userId}, #{age}, #{email}, #{city}, #{mobile}, now(), now() )
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from
+		user_profile
+		where id = #{id}
+	</delete>
+
+	<update id="update" parameterType="profiledo">
+		update
+		user_profile
+		set
+		user_id = #{userId},
+		age = #{age},
+		email = #{email},
+		city = #{city},
+		mobile = #{mobile},
+		modify_time = now()
+		where id = #{id}
+	</update>
+
+</mapper> 

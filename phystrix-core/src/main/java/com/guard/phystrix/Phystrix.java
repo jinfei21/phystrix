@@ -17,4 +17,6 @@ public @interface Phystrix {
 	String commandGroup() ;
 	String fallBack() default "";
 	String isolationStgy() default "SEMAPHORE";
+	int maxRequest() default 500;
+	int timeout() default 1000;
 }

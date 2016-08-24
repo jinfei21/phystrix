@@ -7,7 +7,7 @@
 
 	<groupId>com.guard.phystrix</groupId>
 	<artifactId>phystrix</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 
 
@@ -28,7 +28,7 @@
 		<jetty.version>8.1.0.RC5</jetty.version>
 		<hystrix.version>1.5.3</hystrix.version>
 		<logback.version>1.0.7</logback.version>
-		<spring.version>3.2.13.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 		<aspectj.version>1.6.11</aspectj.version>
 		<jackson.version>2.4.4</jackson.version>
 		<fastjson.version>1.2.14</fastjson.version>
@@ -123,7 +123,21 @@
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-
+			<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjrt</artifactId>

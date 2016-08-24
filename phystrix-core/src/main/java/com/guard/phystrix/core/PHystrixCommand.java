@@ -11,6 +11,9 @@ import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.HystrixThreadPoolKey;
+import com.netflix.hystrix.HystrixThreadPoolProperties;
+import com.netflix.hystrix.HystrixTimerThreadPoolProperties;
 
 public class PHystrixCommand extends HystrixCommand<Object> {
 
@@ -24,14 +27,15 @@ public class PHystrixCommand extends HystrixCommand<Object> {
 	public PHystrixCommand(AnnotationContext commandContext, ProceedingJoinPoint pjp) {
 		this(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(commandContext.getCommandGroup()))
 				.andCommandKey(HystrixCommandKey.Factory.asKey(commandContext.getCommandKey()))
-				.andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-						.withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.valueOf(commandContext.getIsolationStgy()))
-						.withExecutionIsolationSemaphoreMaxConcurrentRequests(commandContext.getMaxRequest())
-						.withExecutionTimeoutInMilliseconds(commandContext.getTimeout())));
+			    .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
+				  .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.valueOf(commandContext.getIsolationStgy()))
+				  .withExecutionIsolationSemaphoreMaxConcurrentRequests(commandContext.getMaxRequest())
+				  .withExecutionTimeoutInMilliseconds(commandContext.getTimeout())));
 		this.pjp = pjp;
 		this.commandContext = commandContext;
 	}
 
+		
 	@Override
 	protected Object run() throws Exception {
 		try {

@@ -24,7 +24,7 @@ public class AnnotationContext {
 		this.fallBack = fallBack;
 		this.isolationStgy = isolationStrategy.toUpperCase();
 		this.maxRequest = 500;
-		this.timeout = 50;
+		this.timeout = 1000;
 	}
 	
 	public String getCommandKey() {
